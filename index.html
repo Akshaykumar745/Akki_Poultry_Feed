@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akki Poultry Feed - Premium Quality Feed</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="logo">
+                <i class="fas fa-egg"></i>
+                <span>Akki Poultry Feed</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link active">Home</a></li>
+                <li><a href="products.html" class="nav-link">Products</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <button class="btn-login" onclick="openLoginModal()">Login</button>
+                <button class="btn-signup" onclick="openSignupModal()">Sign Up</button>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Premium Poultry Feed Solutions</h1>
+            <p>Nourish Your Flock with Quality and Care</p>
+            <button class="btn-primary" onclick="document.getElementById('products-section').scrollIntoView({ behavior: 'smooth' })">
+                Explore Products
+            </button>
+        </div>
+        <div class="hero-image">
+            <i class="fas fa-feather"></i>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h2>Why Choose Akki Poultry Feed?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-leaf"></i>
+                <h3>100% Organic</h3>
+                <p>Made from natural ingredients without any harmful chemicals</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-heart"></i>
+                <h3>Nutritious</h3>
+                <p>Balanced nutrition for healthy and productive poultry</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-check-circle"></i>
+                <h3>Certified Quality</h3>
+                <p>Premium quality assured with international standards</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-truck"></i>
+                <h3>Fast Delivery</h3>
+                <p>Quick and reliable delivery across all regions</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Preview Section -->
+    <section class="products-preview" id="products-section">
+        <h2>Our Products</h2>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-icon">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <h3>Layer Feed</h3>
+                <p>Specially formulated for egg-laying hens</p>
+                <span class="price">₹450/bag</span>
+                <button class="btn-secondary" onclick="location.href='products.html'">View Details</button>
+            </div>
+            <div class="product-card">
+                <div class="product-icon">
+                    <i class="fas fa-dumbbell"></i>
+                </div>
+                <h3>Broiler Feed</h3>
+                <p>High-protein formula for meat production</p>
+                <span class="price">₹520/bag</span>
+                <button class="btn-secondary" onclick="location.href='products.html'">View Details</button>
+            </div>
+            <div class="product-card">
+                <div class="product-icon">
+                    <i class="fas fa-chick"></i>
+                </div>
+                <h3>Chick Starter</h3>
+                <p>Nutrient-rich feed for young chicks</p>
+                <span class="price">₹380/bag</span>
+                <button class="btn-secondary" onclick="location.href='products.html'">View Details</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <h2>What Our Customers Say</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p>"Excellent quality feed! My hens are healthier and more productive."</p>
+                <h4>Raj Kumar - Farmer</h4>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p>"Best poultry feed I've used. Great prices and fast delivery!"</p>
+                <h4>Priya Singh - Poultry Farmer</h4>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p>"Highly recommended! Professional service and quality products."</p>
+                <h4>Amit Patel - Farm Owner</h4>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <h2>Ready to Upgrade Your Poultry Feed?</h2>
+        <p>Get 10% discount on your first order</p>
+        <button class="btn-primary" onclick="openSignupModal()">Sign Up Now</button>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About Akki Poultry</h4>
+                <p>We provide premium quality poultry feed for farmers across the region.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="products.html">Products</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Info</h4>
+                <p><i class="fas fa-phone"></i> +91 XXXXX XXXXX</p>
+                <p><i class="fas fa-envelope"></i> info@akkipoultry.com</p>
+                <p><i class="fas fa-map-marker-alt"></i> Your City, India</p>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Akki Poultry Feed. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLoginModal()">&times;</span>
+            <h2>Login</h2>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="login-email">Email:</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password:</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="remember-me">
+                    <label for="remember-me">Remember me</label>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+                <p class="form-link">Don't have an account? <a href="#" onclick="switchToSignup()">Sign up here</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeSignupModal()">&times;</span>
+            <h2>Create Account</h2>
+            <form onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <label for="signup-name">Full Name:</label>
+                    <input type="text" id="signup-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">Email:</label>
+                    <input type="email" id="signup-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-phone">Phone:</label>
+                    <input type="tel" id="signup-phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password:</label>
+                    <input type="password" id="signup-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-confirm">Confirm Password:</label>
+                    <input type="password" id="signup-confirm" required>
+                </div>
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="agree-terms" required>
+                    <label for="agree-terms">I agree to the terms and conditions</label>
+                </div>
+                <button type="submit" class="btn-primary">Sign Up</button>
+                <p class="form-link">Already have an account? <a href="#" onclick="switchToLogin()">Login here</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

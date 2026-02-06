@@ -1,0 +1,476 @@
+// ===== NAVBAR FUNCTIONALITY =====
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (hamburger) {
+        hamburger.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+        });
+    }
+
+    // Close menu when a link is clicked
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            navMenu.classList.remove('active');
+        });
+    });
+
+    // Update active nav link
+    updateActiveNavLink();
+});
+
+function updateActiveNavLink() {
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === currentPage) {
+            link.classList.add('active');
+        }
+    });
+}
+
+// ===== MODAL FUNCTIONS =====
+function openLoginModal() {
+    document.getElementById('loginModal').style.display = 'block';
+    document.getElementById('signupModal').style.display = 'none';
+}
+
+function closeLoginModal() {
+    document.getElementById('loginModal').style.display = 'none';
+}
+
+function openSignupModal() {
+    document.getElementById('signupModal').style.display = 'block';
+    document.getElementById('loginModal').style.display = 'none';
+}
+
+function closeSignupModal() {
+    document.getElementById('signupModal').style.display = 'none';
+}
+
+function switchToLogin() {
+    closeSignupModal();
+    openLoginModal();
+}
+
+function switchToSignup() {
+    closeLoginModal();
+    openSignupModal();
+}
+
+// Close modal when clicking outside
+window.addEventListener('click', function(event) {
+    const loginModal = document.getElementById('loginModal');
+    const signupModal = document.getElementById('signupModal');
+    
+    if (event.target === loginModal) {
+        loginModal.style.display = 'none';
+    }
+    if (event.target === signupModal) {
+        signupModal.style.display = 'none';
+    }
+});
+
+// ===== FORM HANDLERS =====
+function handleLogin(event) {
+    event.preventDefault();
+    
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+    const rememberMe = document.getElementById('remember-me').checked;
+    
+    // Validation
+    if (!email || !password) {
+        alert('Please fill in all fields');
+        return;
+    }
+    
+    // Store user data in localStorage
+    const userData = {
+        email: email,
+        loggedIn: true,
+        timestamp: new Date().toISOString()
+    };
+    
+    if (rememberMe) {
+        localStorage.setItem('akki_user', JSON.stringify(userData));
+    } else {
+        sessionStorage.setItem('akki_user', JSON.stringify(userData));
+    }
+    
+    // Show success message
+    alert('Login successful! Welcome back, ' + email);
+    closeLoginModal();
+    
+    // Clear form
+    document.querySelector('form[onsubmit="handleLogin(event)"]').reset();
+    
+    // Update UI to show user is logged in
+    updateUIAfterLogin(email);
+}
+
+function handleSignup(event) {
+    event.preventDefault();
+    
+    const name = document.getElementById('signup-name').value;
+    const email = document.getElementById('signup-email').value;
+    const phone = document.getElementById('signup-phone').value;
+    const password = document.getElementById('signup-password').value;
+    const confirmPassword = document.getElementById('signup-confirm').value;
+    const agreeTerms = document.getElementById('agree-terms').checked;
+    
+    // Validation
+    if (!name || !email || !phone || !password || !confirmPassword) {
+        alert('Please fill in all fields');
+        return;
+    }
+    
+    if (password !== confirmPassword) {
+        alert('Passwords do not match');
+        return;
+    }
+    
+    if (!agreeTerms) {
+        alert('Please agree to the terms and conditions');
+        return;
+    }
+    
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        alert('Please enter a valid email address');
+        return;
+    }
+    
+    // Validate phone format
+    const phoneRegex = /^\d{10}$/;
+    if (!phoneRegex.test(phone.replace(/\D/g, ''))) {
+        alert('Please enter a valid phone number');
+        return;
+    }
+    
+    // Store user data
+    const userData = {
+        name: name,
+        email: email,
+        phone: phone,
+        loggedIn: true,
+        timestamp: new Date().toISOString()
+    };
+    
+    localStorage.setItem('akki_user', JSON.stringify(userData));
+    
+    // Show success message
+    alert('Account created successfully! Welcome, ' + name);
+    closeSignupModal();
+    
+    // Clear form
+    document.querySelector('form[onsubmit="handleSignup(event)"]').reset();
+    
+    // Update UI
+    updateUIAfterLogin(email);
+}
+
+function handleContactForm(event) {
+    event.preventDefault();
+    
+    const name = document.getElementById('contact-name').value;
+    const email = document.getElementById('contact-email').value;
+    const phone = document.getElementById('contact-phone').value;
+    const subject = document.getElementById('contact-subject').value;
+    const message = document.getElementById('contact-message').value;
+    const consent = document.getElementById('contact-consent').checked;
+    
+    if (!consent) {
+        alert('Please consent to receive responses');
+        return;
+    }
+    
+    // Store contact message
+    const contactData = {
+        name: name,
+        email: email,
+        phone: phone,
+        subject: subject,
+        message: message,
+        timestamp: new Date().toISOString()
+    };
+    
+    // Save to localStorage
+    let contacts = JSON.parse(localStorage.getItem('akki_contacts')) || [];
+    contacts.push(contactData);
+    localStorage.setItem('akki_contacts', JSON.stringify(contacts));
+    
+    // Show success message
+    alert('Thank you for contacting us! We will get back to you soon.');
+    event.target.reset();
+}
+
+function updateUIAfterLogin(userEmail) {
+    // This function can be extended to update the UI with user-specific content
+    console.log('User logged in:', userEmail);
+}
+
+// ===== PRODUCT FILTERING =====
+function filterProducts(category) {
+    const products = document.querySelectorAll('.full-product-card');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    
+    // Update active button
+    filterBtns.forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    // Filter products
+    products.forEach(product => {
+        if (category === 'all') {
+            product.classList.remove('hidden');
+            product.style.animation = 'fadeIn 0.3s ease';
+        } else {
+            if (product.getAttribute('data-category') === category) {
+                product.classList.remove('hidden');
+                product.style.animation = 'fadeIn 0.3s ease';
+            } else {
+                product.classList.add('hidden');
+            }
+        }
+    });
+}
+
+// ===== CART FUNCTIONS =====
+function addToCart(productName, price) {
+    // Get existing cart or create new one
+    let cart = JSON.parse(localStorage.getItem('akki_cart')) || [];
+    
+    // Check if product already exists in cart
+    const existingProduct = cart.find(item => item.name === productName);
+    
+    if (existingProduct) {
+        existingProduct.quantity += 1;
+    } else {
+        cart.push({
+            name: productName,
+            price: price,
+            quantity: 1
+        });
+    }
+    
+    // Save updated cart
+    localStorage.setItem('akki_cart', JSON.stringify(cart));
+    
+    // Show notification
+    showCartNotification(productName);
+}
+
+function showCartNotification(productName) {
+    // Create and show notification
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: linear-gradient(135deg, #FF6B35 0%, #ff8c42 100%);
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        z-index: 9999;
+        animation: slideInRight 0.3s ease;
+        font-weight: 600;
+    `;
+    
+    notification.textContent = '✓ ' + productName + ' added to cart!';
+    document.body.appendChild(notification);
+    
+    // Remove notification after 3 seconds
+    setTimeout(() => {
+        notification.style.animation = 'fadeOut 0.3s ease';
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+// ===== UTILITY FUNCTIONS =====
+function getCartTotal() {
+    const cart = JSON.parse(localStorage.getItem('akki_cart')) || [];
+    return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+}
+
+function getCartCount() {
+    const cart = JSON.parse(localStorage.getItem('akki_cart')) || [];
+    return cart.reduce((count, item) => count + item.quantity, 0);
+}
+
+function clearCart() {
+    localStorage.removeItem('akki_cart');
+    alert('Cart cleared!');
+}
+
+// ===== SCROLL ANIMATIONS =====
+function observeElements() {
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px'
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+    
+    const cards = document.querySelectorAll('.feature-card, .product-card, .testimonial-card, .team-member');
+    cards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(card);
+    });
+}
+
+// Initialize animations on page load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', observeElements);
+} else {
+    observeElements();
+}
+
+// ===== KEYBOARD SHORTCUTS =====
+document.addEventListener('keydown', function(event) {
+    // Press 'L' to open login
+    if (event.key === 'l' && event.ctrlKey) {
+        event.preventDefault();
+        openLoginModal();
+    }
+    
+    // Press 'S' to open signup
+    if (event.key === 's' && event.ctrlKey) {
+        event.preventDefault();
+        openSignupModal();
+    }
+    
+    // Press 'Esc' to close modals
+    if (event.key === 'Escape') {
+        closeLoginModal();
+        closeSignupModal();
+    }
+});
+
+// ===== PAGE LOAD ANIMATIONS =====
+window.addEventListener('load', function() {
+    // Add fade-in animation to page
+    document.body.style.animation = 'fadeIn 0.5s ease';
+});
+
+// ===== LOCAL STORAGE UTILITIES =====
+function saveUserPreferences(preferences) {
+    localStorage.setItem('akki_preferences', JSON.stringify(preferences));
+}
+
+function getUserPreferences() {
+    return JSON.parse(localStorage.getItem('akki_preferences')) || {};
+}
+
+function isUserLoggedIn() {
+    return localStorage.getItem('akki_user') !== null || sessionStorage.getItem('akki_user') !== null;
+}
+
+function getUserData() {
+    const data = localStorage.getItem('akki_user') || sessionStorage.getItem('akki_user');
+    return data ? JSON.parse(data) : null;
+}
+
+// ===== THEME TOGGLE (OPTIONAL) =====
+function toggleTheme() {
+    const body = document.body;
+    if (body.classList.contains('dark-theme')) {
+        body.classList.remove('dark-theme');
+        localStorage.setItem('theme', 'light');
+    } else {
+        body.classList.add('dark-theme');
+        localStorage.setItem('theme', 'dark');
+    }
+}
+
+// Load saved theme preference
+window.addEventListener('load', function() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+    }
+});
+
+// ===== FORM VALIDATION HELPERS =====
+function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+function validatePhone(phone) {
+    const phoneRegex = /^\d{10}$/;
+    return phoneRegex.test(phone.replace(/\D/g, ''));
+}
+
+function validatePassword(password) {
+    // Password must be at least 6 characters
+    return password.length >= 6;
+}
+
+// ===== SMOOTH SCROLL HELPER =====
+function smoothScroll(elementId) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+// ===== INITIALIZE ON PAGE LOAD =====
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if user is logged in and update UI accordingly
+    if (isUserLoggedIn()) {
+        const user = getUserData();
+        console.log('Welcome back:', user.name || user.email);
+    }
+    
+    // Initialize smooth scrolling for all anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+});
+
+// ===== PRINT CART FUNCTION (for debugging) =====
+function printCart() {
+    const cart = JSON.parse(localStorage.getItem('akki_cart')) || [];
+    console.log('Current Cart:', cart);
+    console.log('Total Items:', getCartCount());
+    console.log('Total Price:', getCartTotal());
+}
+
+// ===== LOGOUT FUNCTION =====
+function logout() {
+    localStorage.removeItem('akki_user');
+    sessionStorage.removeItem('akki_user');
+    alert('You have been logged out!');
+    location.reload();
+}
+
+// ===== ADMIN FUNCTIONS (for demonstration) =====
+function getAllContacts() {
+    return JSON.parse(localStorage.getItem('akki_contacts')) || [];
+}
+
+function printAllContacts() {
+    const contacts = getallContacts();
+    console.log('All Contact Messages:', contacts);
+}
