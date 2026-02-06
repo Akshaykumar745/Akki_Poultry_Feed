@@ -3,37 +3,34 @@ document.addEventListener('DOMContentLoaded', function() {
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
     
-    if (hamburger) {
+    if (hamburger && navMenu) {
+        // Toggle menu on hamburger click
         hamburger.addEventListener('click', function(e) {
             e.stopPropagation();
-            navMenu.classList.toggle('active');
+            toggleMenu();
         });
-    }
 
-    // Close menu when a link is clicked
-    const navLinks = document.querySelectorAll('.nav-link');
-    navLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            navMenu.classList.remove('active');
+        // Close menu when a link is clicked
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                closeMenu();
+            });
         });
-    });
 
-    // Close menu when clicking outside
-    document.addEventListener('click', function(e) {
-        if (navMenu.classList.contains('active') && 
-            !navMenu.contains(e.target) && 
-            !hamburger.contains(e.target)) {
-            navMenu.classList.remove('active');
-        }
-    });
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (navMenu.classList.contains('active') && 
+                !navMenu.contains(e.target) && 
+                !hamburger.contains(e.target)) {
+                closeMenu();
+            }
+        });
 
-    // Prevent body scroll when menu is open
-    if (hamburger) {
-        hamburger.addEventListener('click', function() {
-            if (navMenu.classList.contains('active')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = 'auto';
+        // Close menu on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                closeMenu();
             }
         });
     }
@@ -41,6 +38,39 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update active nav link
     updateActiveNavLink();
 });
+
+function toggleMenu() {
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (navMenu.classList.contains('active')) {
+        closeMenu();
+    } else {
+        openMenu();
+    }
+}
+
+function openMenu() {
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (hamburger && navMenu) {
+        navMenu.classList.add('active');
+        hamburger.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeMenu() {
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (hamburger && navMenu) {
+        navMenu.classList.remove('active');
+        hamburger.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+}
 
 function updateActiveNavLink() {
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
@@ -56,21 +86,27 @@ function updateActiveNavLink() {
 
 // ===== MODAL FUNCTIONS =====
 function openLoginModal() {
+    closeMenu(); // Close mobile menu when opening modal
     document.getElementById('loginModal').style.display = 'block';
     document.getElementById('signupModal').style.display = 'none';
+    document.body.style.overflow = 'hidden';
 }
 
 function closeLoginModal() {
     document.getElementById('loginModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
 }
 
 function openSignupModal() {
+    closeMenu(); // Close mobile menu when opening modal
     document.getElementById('signupModal').style.display = 'block';
     document.getElementById('loginModal').style.display = 'none';
+    document.body.style.overflow = 'hidden';
 }
 
 function closeSignupModal() {
     document.getElementById('signupModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
 }
 
 function switchToLogin() {
