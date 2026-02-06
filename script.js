@@ -4,7 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const navMenu = document.querySelector('.nav-menu');
     
     if (hamburger) {
-        hamburger.addEventListener('click', function() {
+        hamburger.addEventListener('click', function(e) {
+            e.stopPropagation();
             navMenu.classList.toggle('active');
         });
     }
@@ -16,6 +17,26 @@ document.addEventListener('DOMContentLoaded', function() {
             navMenu.classList.remove('active');
         });
     });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (navMenu.classList.contains('active') && 
+            !navMenu.contains(e.target) && 
+            !hamburger.contains(e.target)) {
+            navMenu.classList.remove('active');
+        }
+    });
+
+    // Prevent body scroll when menu is open
+    if (hamburger) {
+        hamburger.addEventListener('click', function() {
+            if (navMenu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        });
+    }
 
     // Update active nav link
     updateActiveNavLink();
@@ -474,3 +495,252 @@ function printAllContacts() {
     const contacts = getallContacts();
     console.log('All Contact Messages:', contacts);
 }
+
+// ===== MOBILE SPECIFIC FEATURES =====
+
+// Detect if device is mobile
+function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+           window.innerWidth <= 768;
+}
+
+// Disable body scroll when modal is open (mobile optimization)
+function disableBodyScroll() {
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
+}
+
+function enableBodyScroll() {
+    document.body.style.overflow = 'auto';
+    document.body.style.position = 'relative';
+    document.body.style.width = '100%';
+}
+
+// Override modal open functions to handle mobile scroll
+const originalOpenLoginModal = openLoginModal;
+openLoginModal = function() {
+    originalOpenLoginModal();
+    if (isMobileDevice()) {
+        disableBodyScroll();
+    }
+}
+
+const originalCloseLoginModal = closeLoginModal;
+closeLoginModal = function() {
+    originalCloseLoginModal();
+    if (isMobileDevice()) {
+        enableBodyScroll();
+    }
+}
+
+const originalOpenSignupModal = openSignupModal;
+openSignupModal = function() {
+    originalOpenSignupModal();
+    if (isMobileDevice()) {
+        disableBodyScroll();
+    }
+}
+
+const originalCloseSignupModal = closeSignupModal;
+closeSignupModal = function() {
+    originalCloseSignupModal();
+    if (isMobileDevice()) {
+        enableBodyScroll();
+    }
+}
+
+// Mobile touch optimization for buttons
+document.addEventListener('DOMContentLoaded', function() {
+    const buttons = document.querySelectorAll('button, a');
+    buttons.forEach(btn => {
+        btn.addEventListener('touchstart', function() {
+            this.style.opacity = '0.8';
+        });
+        btn.addEventListener('touchend', function() {
+            this.style.opacity = '1';
+        });
+    });
+});
+
+// Improve form input experience on mobile
+document.addEventListener('DOMContentLoaded', function() {
+    const inputs = document.querySelectorAll('input, textarea, select');
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            if (isMobileDevice()) {
+                // Scroll the input into view on mobile
+                setTimeout(() => {
+                    this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 100);
+            }
+        });
+    });
+});
+
+// Mobile-friendly notification
+function showMobileNotification(message, duration = 3000) {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        left: 10px;
+        right: 10px;
+        background: linear-gradient(135deg, #FF6B35 0%, #ff8c42 100%);
+        color: white;
+        padding: 1rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        z-index: 9999;
+        animation: slideInUp 0.3s ease;
+        font-weight: 600;
+        text-align: center;
+        max-width: calc(100% - 20px);
+        word-wrap: break-word;
+    `;
+    
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOutDown 0.3s ease';
+        setTimeout(() => notification.remove(), 300);
+    }, duration);
+}
+
+// Add slide animations for mobile notifications
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(100px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes slideOutDown {
+        from {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateY(100px);
+        }
+    }
+    
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+
+// Override cart notification to use mobile-friendly version
+const originalShowCartNotification = showCartNotification;
+showCartNotification = function(productName) {
+    if (isMobileDevice()) {
+        showMobileNotification('✓ ' + productName + ' added to cart!');
+    } else {
+        originalShowCartNotification(productName);
+    }
+}
+
+// Detect orientation change and handle accordingly
+window.addEventListener('orientationchange', function() {
+    // Allow browser to update orientation
+    setTimeout(() => {
+        const navMenu = document.querySelector('.nav-menu');
+        if (navMenu) {
+            navMenu.classList.remove('active');
+        }
+        if (isMobileDevice()) {
+            enableBodyScroll();
+        }
+    }, 100);
+});
+
+// Handle viewport size changes
+let resizeTimer;
+window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+        const navMenu = document.querySelector('.nav-menu');
+        if (navMenu && !isMobileDevice()) {
+            navMenu.classList.remove('active');
+        }
+    }, 250);
+});
+
+// Mobile performance optimization - defer non-critical images
+if ('IntersectionObserver' in window) {
+    document.addEventListener('DOMContentLoaded', function() {
+        const images = document.querySelectorAll('img[data-src]');
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    let img = entry.target;
+                    img.src = img.dataset.src;
+                    img.removeAttribute('data-src');
+                    observer.unobserve(img);
+                }
+            });
+        });
+        
+        images.forEach(img => imageObserver.observe(img));
+    });
+}
+
+// Add swipe gesture detection for mobile navigation
+let touchStartX = 0;
+let touchEndX = 0;
+
+document.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+}, false);
+
+document.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+}, false);
+
+function handleSwipe() {
+    const navMenu = document.querySelector('.nav-menu');
+    // Swipe right to open menu
+    if (touchEndX < touchStartX - 50 && navMenu) {
+        navMenu.classList.remove('active');
+    }
+    // Swipe left to close menu (reserved for future use)
+}
+
+// Mobile viewport optimization
+function optimizeViewport() {
+    const viewport = document.querySelector('meta[name="viewport"]');
+    if (viewport && isMobileDevice()) {
+        viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', optimizeViewport);
+
+// Prevent iOS zoom on input focus
+document.addEventListener('DOMContentLoaded', function() {
+    const inputs = document.querySelectorAll('input, textarea, select');
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            if (isMobileDevice() && /iPhone|iPad|iPod/.test(navigator.userAgent)) {
+                // Zoom to 100% to prevent auto-zoom on iOS
+                document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=device-width, initial-scale=1.0');
+            }
+        });
+    });
+});
+

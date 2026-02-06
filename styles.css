@@ -494,6 +494,8 @@ body {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     animation: fadeIn 0.3s ease;
+    overflow-y: auto;
+    padding: 2rem 0;
 }
 
 .modal-content {
@@ -505,6 +507,8 @@ body {
     max-width: 450px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
     animation: slideDown 0.3s ease;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .modal-content h2 {
@@ -1054,64 +1058,46 @@ body {
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
-@media (max-width: 768px) {
+
+/* ===== TABLET RESPONSIVE (769px to 1024px) ===== */
+@media (min-width: 769px) and (max-width: 1024px) {
     .navbar-container {
-        padding: 0 1rem;
+        padding: 0 1.5rem;
     }
 
     .nav-menu {
-        gap: 1rem;
-        font-size: 0.9rem;
-    }
-
-    .nav-buttons {
-        gap: 0.5rem;
-    }
-
-    .btn-login,
-    .btn-signup {
-        padding: 0.5rem 1rem;
-        font-size: 0.8rem;
-    }
-
-    .hero {
-        flex-direction: column;
-        text-align: center;
+        gap: 1.5rem;
     }
 
     .hero h1 {
-        font-size: 2.2rem;
+        font-size: 2.8rem;
     }
 
-    .hero-image i {
-        font-size: 12rem;
-    }
-
-    .features h2,
-    .products-preview h2,
-    .testimonials h2,
-    .cta h2,
-    .page-header h1 {
-        font-size: 2rem;
+    .hero p {
+        font-size: 1.1rem;
     }
 
     .features-grid,
     .products-grid,
     .testimonials-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
     }
 
-    .contact-container {
-        grid-template-columns: 1fr;
+    .mission-vision {
+        grid-template-columns: repeat(2, 1fr);
     }
+}
 
-    .modal-content {
-        width: 95%;
-        margin: 20% auto;
+/* ===== MOBILE RESPONSIVE (max-width: 768px) ===== */
+@media (max-width: 768px) {
+    /* NAVBAR MOBILE */
+    .navbar-container {
+        padding: 0 1rem;
     }
 
     .hamburger {
         display: flex;
+        z-index: 1001;
     }
 
     .nav-menu {
@@ -1119,17 +1105,19 @@ body {
         top: 70px;
         left: 0;
         width: 100%;
-        background: rgba(11, 25, 41, 0.95);
+        background: rgba(11, 25, 41, 0.98);
+        backdrop-filter: blur(10px);
         flex-direction: column;
         gap: 0;
-        padding: 2rem;
+        padding: 1.5rem;
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.3s ease;
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
 
     .nav-menu.active {
-        max-height: 500px;
+        max-height: 600px;
     }
 
     .nav-menu li {
@@ -1137,51 +1125,829 @@ body {
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .footer-content {
-        grid-template-columns: 1fr;
+    .nav-menu li:last-child {
+        border-bottom: none;
     }
 
-    .product-details {
-        text-align: left;
+    .nav-link {
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        padding: 0.8rem 0;
     }
 
-    .mission-vision {
-        grid-template-columns: 1fr;
+    .nav-buttons {
+        flex-direction: column;
+        gap: 0.8rem;
+        width: 100%;
     }
-}
 
-@media (max-width: 480px) {
+    .btn-login,
+    .btn-signup {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.95rem;
+        width: 100%;
+        text-align: center;
+        border-radius: 20px;
+    }
+
+    /* HERO SECTION MOBILE */
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 2rem 1.5rem;
+        min-height: auto;
+    }
+
     .hero h1 {
-        font-size: 1.8rem;
+        font-size: 2rem;
+        margin-bottom: 0.8rem;
+        line-height: 1.3;
     }
 
     .hero p {
         font-size: 1rem;
+        margin-bottom: 1.5rem;
     }
 
     .hero-image i {
-        font-size: 8rem;
+        font-size: 10rem;
+        opacity: 0.25;
+        margin-top: 2rem;
     }
 
-    .btn-primary {
-        padding: 0.8rem 1.8rem;
-        font-size: 0.9rem;
+    /* FEATURES SECTION MOBILE */
+    .features {
+        padding: 3rem 1.5rem;
     }
 
-    .page-header h1 {
-        font-size: 2rem;
+    .features h2 {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
     }
 
-    .page-header p {
-        font-size: 1rem;
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
 
-    .modal-content {
+    .feature-card {
         padding: 1.5rem;
     }
 
+    .feature-card i {
+        font-size: 2.5rem;
+    }
+
+    .feature-card h3 {
+        font-size: 1.1rem;
+    }
+
+    /* PRODUCTS SECTION MOBILE */
+    .products-preview {
+        padding: 3rem 1.5rem;
+    }
+
+    .products-preview h2 {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+    }
+
+    .products-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .product-card {
+        padding: 1.5rem;
+    }
+
+    .product-card h3 {
+        font-size: 1.2rem;
+    }
+
+    .product-icon {
+        font-size: 2.5rem;
+    }
+
+    .price {
+        font-size: 1.5rem;
+    }
+
+    /* TESTIMONIALS MOBILE */
+    .testimonials {
+        padding: 3rem 1.5rem;
+    }
+
+    .testimonials h2 {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+    }
+
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .testimonial-card {
+        padding: 1.5rem;
+    }
+
+    /* CTA SECTION MOBILE */
+    .cta {
+        padding: 3rem 1.5rem;
+        text-align: center;
+    }
+
+    .cta h2 {
+        font-size: 1.6rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .cta p {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    /* PAGE HEADER MOBILE */
+    .page-header {
+        margin-top: 70px;
+        padding: 2.5rem 1.5rem;
+        min-height: auto;
+    }
+
+    .page-header h1 {
+        font-size: 1.8rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .page-header p {
+        font-size: 0.95rem;
+    }
+
+    /* PRODUCTS PAGE MOBILE */
+    .products-section {
+        padding: 2rem 1.5rem;
+    }
+
+    .filters {
+        margin-bottom: 2rem;
+    }
+
+    .filter-btn {
+        padding: 0.5rem 1rem;
+        margin: 0.4rem 0.3rem;
+        font-size: 0.85rem;
+    }
+
+    .products-full-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .full-product-card {
+        padding: 1.3rem;
+    }
+
+    .product-image {
+        font-size: 2.5rem;
+    }
+
+    /* ABOUT PAGE MOBILE */
+    .about-section {
+        padding: 2rem 1.5rem;
+    }
+
+    .about-intro h2 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .about-intro p {
+        font-size: 0.95rem;
+    }
+
+    .mission-vision {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .mission-card,
+    .vision-card {
+        padding: 1.5rem;
+    }
+
+    .mission-card i,
+    .vision-card i {
+        font-size: 2.5rem;
+    }
+
+    .values-section h2 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .values-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .value-card {
+        padding: 1.5rem;
+    }
+
+    .why-choose h2 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .why-choose-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .team-section h2 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .team-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    /* CONTACT PAGE MOBILE */
+    .contact-section {
+        padding: 2rem 1.5rem;
+    }
+
+    .contact-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .contact-info h2,
+    .contact-form-container h2 {
+        font-size: 1.6rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .info-item {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+    }
+
+    .info-item i {
+        font-size: 1.5rem;
+    }
+
+    .social-links-large {
+        gap: 0.8rem;
+    }
+
+    .social-links-large a {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+    }
+
+    .faq-section {
+        padding: 2rem 1.5rem;
+    }
+
+    .faq-section h2 {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+    }
+
+    .faq-container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .faq-item {
+        padding: 1.3rem;
+    }
+
+    /* FOOTER MOBILE */
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .footer-section {
+        text-align: center;
+    }
+
+    .footer-section h4 {
+        margin-bottom: 0.8rem;
+        font-size: 1rem;
+    }
+
+    .social-links {
+        justify-content: center;
+    }
+
+    /* MODALS MOBILE */
+    .modal {
+        padding: 1rem 0;
+    }
+
+    .modal-content {
+        width: 95%;
+        margin: 15% auto;
+        max-height: 85vh;
+        padding: 1.3rem;
+        border-radius: 15px;
+    }
+
+    .modal-content h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .close {
+        font-size: 1.8rem;
+        padding: 0.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+        font-size: 0.95rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        padding: 0.7rem;
+        font-size: 1rem;
+        border-radius: 8px;
+    }
+
+    .btn-primary {
+        padding: 0.9rem 1.8rem;
+        font-size: 0.95rem;
+        width: 100%;
+    }
+
+    .btn-secondary {
+        padding: 0.7rem 1.4rem;
+        font-size: 0.9rem;
+        width: 100%;
+    }
+
+    /* CONTACT FORM MOBILE */
     .contact-form {
+        padding: 1.3rem;
+    }
+}
+
+/* ===== SMALL PHONE RESPONSIVE (max-width: 480px) ===== */
+@media (max-width: 480px) {
+    /* GENERAL MOBILE */
+    html {
+        font-size: 14px;
+    }
+
+    body {
+        overflow-x: hidden;
+    }
+
+    /* NAVBAR SMALL PHONE */
+    .navbar {
+        padding: 0.8rem 0;
+    }
+
+    .navbar-container {
+        padding: 0 0.8rem;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+        gap: 0.5rem;
+    }
+
+    .logo i {
+        font-size: 1.8rem;
+    }
+
+    .nav-menu {
+        top: 65px;
         padding: 1rem;
+    }
+
+    .nav-menu.active {
+        max-height: 500px;
+    }
+
+    /* HERO SECTION SMALL PHONE */
+    .hero {
+        padding: 1.5rem 1rem;
+        margin-top: 65px;
+    }
+
+    .hero h1 {
+        font-size: 1.5rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .hero p {
+        font-size: 0.9rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .hero-image i {
+        font-size: 6rem;
+        margin-top: 1.5rem;
+    }
+
+    .btn-primary {
+        padding: 0.7rem 1.5rem;
+        font-size: 0.85rem;
+    }
+
+    /* FEATURES SMALL PHONE */
+    .features {
+        padding: 2rem 1rem;
+    }
+
+    .features h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .feature-card {
+        padding: 1.2rem;
+        border-radius: 8px;
+    }
+
+    .feature-card i {
+        font-size: 2rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .feature-card h3 {
+        font-size: 1rem;
+        margin-bottom: 0.6rem;
+    }
+
+    .feature-card p {
+        font-size: 0.85rem;
+    }
+
+    /* PRODUCTS SMALL PHONE */
+    .products-preview {
+        padding: 2rem 1rem;
+    }
+
+    .products-preview h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .product-card {
+        padding: 1.2rem;
+    }
+
+    .product-icon {
+        font-size: 2rem;
+    }
+
+    .product-card h3 {
+        font-size: 1rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .product-card p {
+        font-size: 0.85rem;
+        margin-bottom: 1rem;
+    }
+
+    .price {
+        font-size: 1.3rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .btn-secondary {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.8rem;
+    }
+
+    /* TESTIMONIALS SMALL PHONE */
+    .testimonials {
+        padding: 2rem 1rem;
+    }
+
+    .testimonials h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .testimonial-card {
+        padding: 1.2rem;
+    }
+
+    .testimonial-card p {
+        font-size: 0.85rem;
+    }
+
+    .testimonial-card h4 {
+        font-size: 0.9rem;
+    }
+
+    /* CTA SMALL PHONE */
+    .cta {
+        padding: 2rem 1rem;
+    }
+
+    .cta h2 {
+        font-size: 1.4rem;
+        margin-bottom: 0.6rem;
+    }
+
+    .cta p {
+        font-size: 0.9rem;
+        margin-bottom: 1.2rem;
+    }
+
+    /* PAGE HEADER SMALL PHONE */
+    .page-header {
+        padding: 2rem 1rem;
+        margin-top: 65px;
+    }
+
+    .page-header h1 {
+        font-size: 1.5rem;
+        margin-bottom: 0.6rem;
+    }
+
+    .page-header p {
+        font-size: 0.85rem;
+    }
+
+    /* PRODUCTS PAGE SMALL PHONE */
+    .products-section {
+        padding: 1.5rem 1rem;
+    }
+
+    .filters h3 {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .filter-btn {
+        padding: 0.5rem 0.9rem;
+        margin: 0.3rem 0.2rem;
+        font-size: 0.75rem;
+    }
+
+    .product-details p {
+        font-size: 0.8rem;
+        margin-bottom: 0.4rem;
+    }
+
+    /* ABOUT PAGE SMALL PHONE */
+    .about-section {
+        padding: 1.5rem 1rem;
+    }
+
+    .about-intro h2 {
+        font-size: 1.5rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .about-intro p {
+        font-size: 0.85rem;
+        line-height: 1.5;
+    }
+
+    .mission-card,
+    .vision-card {
+        padding: 1.2rem;
+    }
+
+    .mission-card h3,
+    .vision-card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .mission-card p,
+    .vision-card p {
+        font-size: 0.85rem;
+    }
+
+    .values-section h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .value-card {
+        padding: 1.2rem;
+    }
+
+    .value-card i {
+        font-size: 2rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .value-card h4 {
+        font-size: 0.95rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .value-card p {
+        font-size: 0.8rem;
+    }
+
+    .why-item {
+        padding: 1.2rem;
+    }
+
+    .why-item i {
+        font-size: 2rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .team-member {
+        padding: 1.2rem;
+    }
+
+    .member-image {
+        font-size: 3rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .team-member h4 {
+        font-size: 1rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .team-member p {
+        font-size: 0.85rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .team-member small {
+        font-size: 0.75rem;
+    }
+
+    /* CONTACT PAGE SMALL PHONE */
+    .contact-section {
+        padding: 1.5rem 1rem;
+    }
+
+    .contact-info h2,
+    .contact-form-container h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .info-item {
+        margin-bottom: 1.2rem;
+        padding-bottom: 1.2rem;
+    }
+
+    .info-item h4 {
+        font-size: 0.95rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .info-item p {
+        font-size: 0.8rem;
+    }
+
+    .social-links-large a {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .faq-section {
+        padding: 1.5rem 1rem;
+    }
+
+    .faq-section h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .faq-item {
+        padding: 1.2rem;
+    }
+
+    .faq-item h4 {
+        font-size: 0.95rem;
+        margin-bottom: 0.6rem;
+    }
+
+    .faq-item p {
+        font-size: 0.8rem;
+    }
+
+    /* FOOTER SMALL PHONE */
+    .footer {
+        padding: 2rem 1rem 1rem;
+    }
+
+    .footer-section h4 {
+        font-size: 0.95rem;
+        margin-bottom: 0.6rem;
+    }
+
+    .footer-section p,
+    .footer-section a {
+        font-size: 0.8rem;
+    }
+
+    .social-links a {
+        width: 35px;
+        height: 35px;
+        font-size: 0.8rem;
+    }
+
+    .footer-bottom {
+        font-size: 0.75rem;
+        padding-top: 1.5rem;
+    }
+
+    /* MODALS SMALL PHONE */
+    .modal {
+        padding: 0.5rem 0;
+    }
+
+    .modal-content {
+        width: 97%;
+        margin: 10% auto;
+        max-height: 80vh;
+        padding: 1.2rem;
+        border-radius: 12px;
+    }
+
+    .modal-content h2 {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+    }
+
+    .close {
+        font-size: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-group label {
+        font-size: 0.85rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        padding: 0.6rem;
+        font-size: 0.95rem;
+    }
+
+    .form-link {
+        font-size: 0.8rem;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        font-size: 0.85rem;
+    }
+
+    .contact-form {
+        padding: 1.2rem;
+    }
+
+    /* TOUCH-FRIENDLY ELEMENTS */
+    button,
+    a,
+    .filter-btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .product-card,
+    .feature-card,
+    .testimonial-card {
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .product-card:active,
+    .feature-card:active,
+    .testimonial-card:active {
+        transform: scale(0.98);
     }
 }
 
